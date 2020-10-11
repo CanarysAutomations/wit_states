@@ -46,7 +46,6 @@ async function getworkitemstates(env) {
             else
             {
                 core.setFailed();
-                return;
             }
         }
         
