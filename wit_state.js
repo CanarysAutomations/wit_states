@@ -29,7 +29,7 @@ async function getworkitemstates(env) {
         let client = await connection.getWorkItemTrackingApi();
         var workitem = await client.getWorkItem(vm.env.wit_id);
 
-        if (workItem === null)
+        if (workitem === null)
         {
             core.setFailed();
         }
