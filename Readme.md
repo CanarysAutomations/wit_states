@@ -1,19 +1,21 @@
 # Get Work Item State 
 
-Gets the work item state based on the work item id. User to provide the following inputs.
+Gets the work item state based on the work item id. 
 
-      - Azure DevOps Organization
-      - Work Item Id
-      - Work Item state to compare to
-      - Azure DevOps Token
+## User to provide the following inputs.
 
-      ```
-      env:  
-        ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
-        ado_organization: '${{ secrets.ADO_ORGANIZATION}}'
-        ado_state: 'Work Item State'
-        ado_workitemid: 'Work Item Id'
-      ```
+  - Azure DevOps Organization
+  - Work Item Id
+  - Work Item state to compare to
+  - Azure DevOps Token
+
+  ```
+    env:  
+      ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
+      ado_organization: '${{ secrets.ADO_ORGANIZATION}}'
+      ado_state: 'Work Item State'
+      ado_workitemid: 'Work Item Id'
+  ```
 
 The input state is compared against the work item's state, if they are not equal the action will fail.
 
