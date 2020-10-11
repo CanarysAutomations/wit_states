@@ -1,0 +1,6 @@
+name: "Azure Boards Work Item Details "
+description: "Get Work Item States"
+author: "Canarys Automations"
+runs:
+  using: "node12"
+  main: "wit_state.js"
