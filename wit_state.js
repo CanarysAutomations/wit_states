@@ -32,7 +32,6 @@ async function getworkitemstates(env) {
         if (workItem === null)
         {
             core.setFailed();
-            console.log("Work Item Not Found");
         }
         else
         {
@@ -43,6 +42,11 @@ async function getworkitemstates(env) {
             if (state == witstate)
             {
                 console.log("Work Item State is "+ state);
+            }
+            else
+            {
+                core.setFailed();
+                return;
             }
         }
         
