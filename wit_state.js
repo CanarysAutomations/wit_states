@@ -3,19 +3,20 @@ const core = require(`@actions/core`);
 
 main();
 async function main () {
-  try {
-    let vm = [];
-    const env = process.env
+  
+    try 
+    {
+      let vm = [];
+      const env = process.env
 
-    vm = getValuesFromPayload(env);
+      vm = getValuesFromPayload(env);
 
-    getworkitemstates(vm);
-  }
-  catch(err){
-    core.setFailed(err)
-  }
-    
-    
+      getworkitemstates(vm);
+    }
+    catch(err){
+        core.setFailed(err)
+    }
+       
 }
 
 async function getworkitemstates(env) {
@@ -24,7 +25,6 @@ async function getworkitemstates(env) {
 
         var state = vm.env.adostate;
         let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
-        //let orgUrl1 = "https://dev.azure.com/vaishnavnugala";
         let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
         let client = await connection.getWorkItemTrackingApi();
         var workitem = await client.getWorkItem(vm.env.wit_id);
@@ -36,8 +36,6 @@ async function getworkitemstates(env) {
         else
         {
             var witstate = workitem.fields["System.State"];
-        
-            console.log(witstate);
         
             if (state == witstate)
             {
