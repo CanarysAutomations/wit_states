@@ -21,8 +21,7 @@ The input state is compared against the work item's state, if they are not equal
 
 ## Sample Input Format
 
-  ```
-	  
+  ```  
 	name: get work item state
 
 	on:
@@ -34,10 +33,11 @@ The input state is compared against the work item's state, if they are not equal
        runs-on: ubuntu-latest
        name: Test workflow
        steps:       
-       - uses: CanarysPlayground/wit_states@master
+       - uses: CanarysDevOps/wit_states@master
        env:  
         ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
         ado_organization: '${{ secrets.ADO_ORGANIZATION}}
         ado_state: 'Work Item State
         ado_workitemid: 'Work Item Id'
+	
     ```
