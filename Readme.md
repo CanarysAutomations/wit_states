@@ -1,6 +1,6 @@
-# Get Work Item State 
+# Overview
 
-Gets the work item state based on the work item id. 
+This action gets the state of the work item in Azure DevOps based on the work item id.
 
 ## User to provide the following inputs.
 
@@ -17,7 +17,7 @@ Gets the work item state based on the work item id.
       ado_workitemid: 'Work Item Id'
   ```
 
-The input state is compared against the work item's state, if they are not equal the action will fail.
+The input state is compared against the work item's state, if they are not equal the action fails.
 
 ## Sample Input Format
 
