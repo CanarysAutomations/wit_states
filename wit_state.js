@@ -24,6 +24,7 @@ async function getworkitemstates(env) {
     try {
       
         var state = vm.env.adostate;
+        var closedstate = vm.env.closestate;
         let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
         let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
         let client = await connection.getWorkItemTrackingApi();
@@ -38,6 +39,7 @@ async function getworkitemstates(env) {
         for (wid = 0; wid < count ; ++wid)
         {
             var witem = await client.getWorkItem(workitem.workItems[wid].id);
+            var witemstate = witem.fields["System.State"];
             var witemid = witem.id;
 
             if (witem === null)
@@ -47,16 +49,21 @@ async function getworkitemstates(env) {
             }
             else
             {
-                var witemstate = witem.fields["System.State"];
-
-                if (state == witemstate)
+                if (closedstate == witemstate)
                 {
-                    console.log("Work Item " + witemid + " State is "+ state);
+                    console.log("Work Item " + witemid + " is in " + witemstate + " State");
                 }
                 else
                 {
-                    core.setFailed();
-                    console.log("Not all workitems are in " + state);
+                    if (state == witemstate)
+                    {
+                        console.log("Work Item " + witemid + " State is "+ state);
+                    }
+                    else
+                    {
+                        core.setFailed();
+                        console.log("Not all workitems are in " + state);
+                    }
                 }
             }
         }
@@ -76,6 +83,7 @@ function getValuesFromPayload(env)
             orgUrl: env.ado_organization != undefined ? "https://dev.azure.com/" + env.ado_organization : "",
             adoToken: env.ado_token != undefined ? env.ado_token : "",
             adostate: env.ado_state != undefined ? env.ado_state : "",
+            closestate: env.close_state != undefined ? env.close_state : "",
             wit_id: env.ado_workitemid != undefined ? env.ado_workitemid :""
         }
     }
