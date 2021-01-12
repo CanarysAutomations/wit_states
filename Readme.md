@@ -14,7 +14,7 @@ This action gets the state of the work item in Azure DevOps based on the work it
       ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
       ado_organization: '${{ secrets.ADO_ORGANIZATION}}'
       ado_state: 'Work Item State'
-      ado_workitemid: 'Work Item Id'
+      close_state: 'ADO Closed Work Item State to check against'
   ```
 
 The input state is compared against the work item's state, if they are not equal the action fails.
@@ -36,8 +36,8 @@ The input state is compared against the work item's state, if they are not equal
        - uses: CanarysDevOps/wit_states@master
        env:  
         ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
-        ado_organization: '${{ secrets.ADO_ORGANIZATION}}
-        ado_state: 'Work Item State
-        ado_workitemid: 'Work Item Id'
+        ado_organization: '${{ secrets.ADO_ORGANIZATION}}'
+        ado_state: 'Work Item State'
+        close_state: 'ADO Closed Work Item State to check against'
 	
   ```
