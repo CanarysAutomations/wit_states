@@ -22,28 +22,42 @@ async function main () {
 async function getworkitemstates(env) {
 
     try {
-
+      
         var state = vm.env.adostate;
         let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
         let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
         let client = await connection.getWorkItemTrackingApi();
-        var workitem = await client.getWorkItem(vm.env.wit_id);
 
-        if (workitem === null)
+        var query = "Select [System.Id] From WorkItems";
+        var workitem = await client.queryByWiql({query});
+
+        var count = workitem.workItems.length;
+    
+        console.log(" The number of workitems discovered " + count);
+
+        for (wid = 0; wid < count ; ++wid)
         {
-            core.setFailed();
-        }
-        else
-        {
-            var witstate = workitem.fields["System.State"];
-        
-            if (state == witstate)
+            var witem = await client.getWorkItem(workitem.workItems[wid].id);
+            var witemid = witem.id;
+
+            if (witem === null)
             {
-                console.log("Work Item State is "+ state);
+                console.log("No Work Items are available to Check State"); 
+                core.setFailed();
             }
             else
             {
-                core.setFailed();
+                var witemstate = witem.fields["System.State"];
+
+                if (state == witemstate)
+                {
+                    console.log("Work Item " + witemid + " State is "+ state);
+                }
+                else
+                {
+                    core.setFailed();
+                    console.log("Not all workitems are in " + state);
+                }
             }
         }
         
@@ -52,7 +66,6 @@ async function getworkitemstates(env) {
     {
         core.setFailed(err)
     }
-
 }
 
 function getValuesFromPayload(env)
