@@ -60,7 +60,7 @@ async function getiterations(env) {
             if (sprinttimeframe == 'current')
             {
                 var sprintname = result.data.value[i].name;
-                console.log(sprintname);
+                //console.log(sprintname);
             }
 
         }
