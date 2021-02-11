@@ -80,7 +80,7 @@ async function getworkitemstates(env,projectname,sprintname) {
         let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
         let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
 
-
+        console.log(sprintname);
         
         let client = await connection.getWorkItemTrackingApi();
 
