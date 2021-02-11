@@ -72,7 +72,7 @@ async function getworkitemstates(env,projectname,sprintname) {
 
     try {
       
-        
+        console.log(projectname);
         let iterationpath = projectname + "\\" + sprintname
         var state = vm.env.adostate;
         var closedstate = vm.env.closestate;
