@@ -75,6 +75,7 @@ async function getworkitemstates(env,projectname,sprintname) {
     try {
       
         let iterationpath = projectname + "\\" + sprintname
+        console.log(iterationpath);
         var state = vm.env.adostate;
         var closedstate = vm.env.closestate;
         let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
