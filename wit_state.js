@@ -74,15 +74,12 @@ async function getworkitemstates(env,projectname,sprintname) {
 
     try {
       
-        console.log(projectname,sprintname);
         let iterationpath = projectname + "\\" + sprintname
-        console.log(iterationpath);
         var state = vm.env.adostate;
         var closedstate = vm.env.closestate;
         let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
         let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
 
-        console.log(iterationpath);
 
         
         let client = await connection.getWorkItemTrackingApi();
@@ -90,7 +87,6 @@ async function getworkitemstates(env,projectname,sprintname) {
         var query = "Select [System.Id] From WorkItems Where [System.IterationPath] =" +"'"+iterationpath+"'";
 
         var workitem = await client.queryByWiql({query});
-        console.log(workitem);
 
         var count = workitem.workItems.length;
 
