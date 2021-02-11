@@ -62,7 +62,7 @@ async function getiterations(env) {
             }
 
         }
-        getworkitemstates(projectname,sprintname)
+        getworkitemstates(env,projectname,sprintname)
     }
 
 }
