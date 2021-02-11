@@ -34,12 +34,14 @@ async function getiterations(env) {
 
     for (j= 0; j< teamscount ; ++j)
     {
+        let projectname = teams[j].projectName;
 
-        let projectname = encodeURIComponent(teams[j].projectName);
 
-        let teamname = encodeURIComponent(teams[j].name);
+        let encprojectname = encodeURIComponent(teams[j].projectName);
 
-        const requesturl = vm.env.orgUrl+"/"+projectname+"/"+teamname+"/_apis/work/teamsettings/Iterations?api-version=6.0";    
+        let encteamname = encodeURIComponent(teams[j].name);
+
+        const requesturl = vm.env.orgUrl+"/"+encprojectname+"/"+encteamname+"/_apis/work/teamsettings/Iterations?api-version=6.0";    
         var result = await axios (requesturl, {
                method: 'GET',
                headers:{
