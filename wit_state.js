@@ -11,7 +11,7 @@ async function main () {
 
       vm = getValuesFromPayload(env);
 
-      getworkitemstates(vm);
+      getiterations(vm);
     }
     catch(err){
         core.setFailed(err)
@@ -19,22 +19,75 @@ async function main () {
        
 }
 
-async function getworkitemstates(env) {
+async function getiterations(env) {
+
+    let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
+    let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
+    let client = connection.getCoreApi();
+
+    let teams = await (await client).getAllTeams();
+
+    let teamscount = teams.length;
+
+
+    for (j= 0; j< teamscount ; ++j)
+    {
+
+        let projectname = encodeURIComponent(teams[j].projectName);
+
+        let teamname = encodeURIComponent(teams[j].name);
+
+        const requesturl = vm.env.orgUrl+"/"+projectname+"/"+teamname+"/_apis/work/teamsettings/Iterations?api-version=6.0";    
+        var result = await axios (requesturl, {
+               method: 'GET',
+               headers:{
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${Buffer.from(`PAT:${vm.env.adoToken}`).toString('base64')}`
+               }
+        })
+    
+        var count = result.data.count;
+    
+    
+        for (i = 0; i < count ; ++i)
+        {
+            var sprinttimeframe = result.data.value[i].attributes.timeFrame;
+            if (sprinttimeframe == 'current')
+            {
+                var sprintname = result.data.value[i].name;
+                console.log(sprintname);
+            }
+
+        }
+        getworkitemstates(projectname,sprintname)
+    }
+
+}
+
+
+async function getworkitemstates(env,projectname,sprintname) {
 
     try {
       
+        
+        let iterationpath = projectname + "\\" + sprintname
         var state = vm.env.adostate;
         var closedstate = vm.env.closestate;
         let authHandler = azdev.getPersonalAccessTokenHandler(vm.env.adoToken);
         let connection = new azdev.WebApi(vm.env.orgUrl, authHandler);
+
+        console.log(iterationpath);
+
+        
         let client = await connection.getWorkItemTrackingApi();
 
-        var query = "Select [System.Id] From WorkItems";
+        var query = "Select [System.Id] From WorkItems Where [System.IterationPath] =" +"'"+iterationpath+"'";
+
         var workitem = await client.queryByWiql({query});
+        console.log(workitem);
 
         var count = workitem.workItems.length;
-    
-        console.log(" The number of workitems discovered " + count);
 
         for (wid = 0; wid < count ; ++wid)
         {
@@ -63,6 +116,7 @@ async function getworkitemstates(env) {
                     {
                         core.setFailed();
                         console.log("Not all workitems are in " + state);
+                        console.log("Work Item " + witemid + " State is "+ witemstate);
                     }
                 }
             }
